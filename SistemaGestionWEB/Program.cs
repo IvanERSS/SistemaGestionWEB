@@ -1,3 +1,14 @@
+using SistemaGestionWEB.Models;
+using SistemaGestionWEB.Repository;
+
+//PRUEBAS
+
+//UsuarioRepository.Get(1);
+//UsuarioRepository.Get(69);
+
+//FIN DE PRUEBAS
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,3 +34,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
