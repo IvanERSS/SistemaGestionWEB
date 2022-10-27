@@ -21,6 +21,17 @@ namespace SistemaGestionWEB.Controllers
             ProductoRepository.Update(_Producto);
         }
 
+        [HttpPut("Delete")]
+        public void Delete([FromBody] int _ProductId)
+        {
+            ProductoRepository.Delete(_ProductId);
+        }
+
+        [HttpPost("Create")]
+        public void Create([FromBody] Producto _Producto)
+        {
+            ProductoRepository.Create(_Producto);
+        }
 
     }
 }

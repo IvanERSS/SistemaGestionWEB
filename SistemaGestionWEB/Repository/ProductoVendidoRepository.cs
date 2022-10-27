@@ -151,7 +151,7 @@ namespace SistemaGestionWEB.Repository
 
         }
 
-        public static ProductoVendido Crear(Producto _Producto, int _Cantidad)
+        public static ProductoVendido Crear(int _IdProducto, int _Cantidad, int _IdVenta)
         {
 
 

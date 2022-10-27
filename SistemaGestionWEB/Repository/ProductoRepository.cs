@@ -187,7 +187,7 @@ namespace SistemaGestionWEB.Repository
             return false;
         }
 
-        public static void Eliminar(int _idParameter)
+        public static void Delete(int _idParameter)
         {
             using (SqlConnection connection = RepositoryTools.GetConnection())
             {
@@ -199,8 +199,29 @@ namespace SistemaGestionWEB.Repository
                                 ";
                 cmd.ExecuteNonQuery();
                 connection.Close();
-            }//FUNCIONAL
+            }
         }
 
+        public static bool Create(Producto _ProductParameter)
+        {
+            using (SqlConnection connection = RepositoryTools.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.Parameters.Add(new SqlParameter("descripciones", System.Data.SqlDbType.VarChar) { Value = _ProductParameter.ID });
+                cmd.Parameters.Add(new SqlParameter("costo", System.Data.SqlDbType.Float) { Value = _ProductParameter.Costo });
+                cmd.Parameters.Add(new SqlParameter("precioVenta", System.Data.SqlDbType.Float) { Value = _ProductParameter.PrecioVenta });
+                cmd.Parameters.Add(new SqlParameter("stock", System.Data.SqlDbType.Int) { Value = _ProductParameter.Stock });
+                cmd.Parameters.Add(new SqlParameter("idUsuario", System.Data.SqlDbType.Int) { Value = _ProductParameter.Usuario.ID });
+
+                cmd.CommandText = @"
+									INSERT INTO Producto (Descripciones,Costo,PrecioVenta,Stock,IdUsuario)
+									VALUES (@descripciones,@costo,@precioVenta,@stock,@idUsuario)
+                                ";
+                if (cmd.ExecuteNonQuery() > 0) { return true; }
+                connection.Close();
+            }
+            return false;
+        }
     }
 }
