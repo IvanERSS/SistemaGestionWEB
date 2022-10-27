@@ -154,7 +154,6 @@ namespace SistemaGestionWEB.Repository
         public static ProductoVendido Crear(int _IdProducto, int _Cantidad, int _IdVenta)
         {
 
-
             return null;
         }
 
@@ -162,7 +161,5 @@ namespace SistemaGestionWEB.Repository
         {
 
         }
-
-
     }
 }

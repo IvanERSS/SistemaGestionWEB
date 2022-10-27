@@ -99,14 +99,14 @@ namespace SistemaGestionWEB.Repository
             return _Venta;
         }
 
-        public static void Crear(Dictionary<int,int> _ProductoCantidad,string _Comentarios)
+        public static void Create(Dictionary<int,int> _ProductoCantidad,string _Comentarios)
         {
             List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
             Venta _Venta = new Venta();
 
             foreach (var producto in _ProductoCantidad)
             {
-                listaProductosVendidos.Add(ProductoVendidoRepository.Crear(producto.Key, producto.Value,));
+                //listaProductosVendidos.Add(ProductoVendidoRepository.Crear(producto.Key, producto.Value,));
             }
 
             _Venta.Productos = listaProductosVendidos;
