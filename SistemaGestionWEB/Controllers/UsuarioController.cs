@@ -29,10 +29,10 @@ namespace SistemaGestionWEB.Controllers
 
 
         //METODOS PUT
-        [HttpPut("actualizar")]
-        public void Actualizar([FromBody] Usuario user)
+        [HttpPut("Update")]
+        public void Update([FromBody] Usuario user)
         {
-            UsuarioRepository.Modificar(user);
+            UsuarioRepository.Update(user);
         }
 
         //METODOS DELETE

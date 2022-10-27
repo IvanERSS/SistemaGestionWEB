@@ -161,28 +161,46 @@ namespace SistemaGestionWEB.Repository
 
         }
 
-        public static bool Modificar(Producto _ProductParameter)
+        public static bool Update(Producto _ProductParameter)
         {
+            //if (0 == UsuarioRepository.Get(_ProductParameter.Usuario.ID).ID) { return false; }//Validaciones de que existe el producto
+            using (SqlConnection connection = RepositoryTools.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.Parameters.Add(new SqlParameter("id", System.Data.SqlDbType.Int) { Value = _ProductParameter.ID });
+                cmd.Parameters.Add(new SqlParameter("descripciones", System.Data.SqlDbType.VarChar) { Value = _ProductParameter.Descripciones });
+                cmd.Parameters.Add(new SqlParameter("costo", System.Data.SqlDbType.Decimal) { Value = _ProductParameter.Costo });
+                cmd.Parameters.Add(new SqlParameter("precioVenta", System.Data.SqlDbType.Decimal) { Value = _ProductParameter.PrecioVenta });
+                cmd.Parameters.Add(new SqlParameter("stock", System.Data.SqlDbType.Int) { Value = _ProductParameter.Stock });
+                cmd.Parameters.Add(new SqlParameter("idUsuario", System.Data.SqlDbType.Int) { Value = _ProductParameter.Usuario.ID });
 
-            if (0 == UsuarioRepository.Get(_ProductParameter.Usuario.ID).ID) { return false; }
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Parameters.Add(new SqlParameter("id", System.Data.SqlDbType.Int) { Value = _ProductParameter.ID });
-            cmd.Parameters.Add(new SqlParameter("descripciones", System.Data.SqlDbType.VarChar) { Value = _ProductParameter.Descripciones });
-            cmd.Parameters.Add(new SqlParameter("costo", System.Data.SqlDbType.Decimal) { Value = _ProductParameter.Costo });
-            cmd.Parameters.Add(new SqlParameter("precioVenta", System.Data.SqlDbType.Decimal) { Value = _ProductParameter.PrecioVenta });
-            cmd.Parameters.Add(new SqlParameter("stock", System.Data.SqlDbType.Int) { Value = _ProductParameter.Stock });
-            cmd.Parameters.Add(new SqlParameter("idUsuario", System.Data.SqlDbType.Int) { Value = _ProductParameter.Usuario.ID });
-
-            cmd.CommandText = @"
+                cmd.CommandText = @"
                                 UPDATE Producto
                                 SET Descripciones = @descripciones, Costo = @costo, PrecioVenta = @precioVenta, Stock = @stock, IdUsuario = @idUsuario
                                 WHERE id = @id
                             ";
-
-
+                
+                if(cmd.ExecuteNonQuery() > 0) { return true; }
+                connection.Close();
+            }
             return false;
-        }//TERMINAR
+        }
+
+        public static void Eliminar(int _idParameter)
+        {
+            using (SqlConnection connection = RepositoryTools.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.Parameters.Add(new SqlParameter("id", System.Data.SqlDbType.Int) { Value = _idParameter });
+                cmd.CommandText = @"
+                                    DELETE FROM Producto WHERE id = @id
+                                ";
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }//FUNCIONAL
+        }
 
     }
 }

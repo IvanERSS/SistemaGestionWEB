@@ -3,8 +3,10 @@ using SistemaGestionWEB.Repository;
 
 //PRUEBAS
 
-//UsuarioRepository.Get(1);
-//UsuarioRepository.Get(69);
+//Producto x = ProductoRepository.Get(11);
+//x.Usuario.ID = 4;
+//x.Usuario = UsuarioRepository.Get(1);
+//Console.WriteLine(ProductoRepository.Modificar(x));
 
 //FIN DE PRUEBAS
 

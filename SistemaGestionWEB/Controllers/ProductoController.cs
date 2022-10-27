@@ -9,10 +9,16 @@ namespace SistemaGestionWEB.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        [HttpGet (Name = "GetProductos")]
+        [HttpGet ("Get")]
         public List<Producto> Get()
         {
             return ProductoRepository.Get();
+        }
+
+        [HttpPut("Update")]
+        public void Update([FromBody]Producto _Producto)
+        {
+            ProductoRepository.Update(_Producto);
         }
 
 

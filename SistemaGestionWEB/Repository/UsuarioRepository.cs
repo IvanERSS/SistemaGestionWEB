@@ -144,25 +144,32 @@ namespace SistemaGestionWEB.Repository
 
         }
 
-        public static void Modificar(Usuario _UserParameter)
+        public static bool Update(Usuario _UserParameter)
         {
+            //if (0 == UsuarioRepository.Get(_UserParameter.ID).ID) { return false; }//Validaciones de que existe el usuario
+            using (SqlConnection connection = RepositoryTools.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.Parameters.Add(new SqlParameter("id", System.Data.SqlDbType.Int) { Value = _UserParameter.ID });
-            cmd.Parameters.Add(new SqlParameter("nombre", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Nombre });
-            cmd.Parameters.Add(new SqlParameter("apellido", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Apellido });
-            cmd.Parameters.Add(new SqlParameter("contrasenia", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Contrasenia });
-            cmd.Parameters.Add(new SqlParameter("mail", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Mail });
-            
+                cmd.Parameters.Add(new SqlParameter("id", System.Data.SqlDbType.Int) { Value = _UserParameter.ID });
+                cmd.Parameters.Add(new SqlParameter("nombre", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Nombre });
+                cmd.Parameters.Add(new SqlParameter("apellido", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Apellido });
+                cmd.Parameters.Add(new SqlParameter("nombreUsuario", System.Data.SqlDbType.VarChar) { Value = _UserParameter.NombreUsuario });
+                cmd.Parameters.Add(new SqlParameter("contrasenia", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Contrasenia });
+                cmd.Parameters.Add(new SqlParameter("mail", System.Data.SqlDbType.VarChar) { Value = _UserParameter.Mail });
 
-            cmd.CommandText = @"
+                cmd.CommandText = @"
                                 UPDATE Usuario
-                                SET Nombre = @nombre, Apellido = @apellido, Contraseña = @contrasenia, Mail = @mail
+                                SET Nombre = @nombre, Apellido = @apellido, NombreUsuario = @nombreUsuario, Contraseña = @contrasenia, Mail = @mail
                                 WHERE id = @id
                             ";
-            cmd.ExecuteNonQuery();
 
-        }//TERMINAR
+                if(cmd.ExecuteNonQuery() > 0) { return true; }
+                connection.Close();
+            }
+            return false;
+        }
 
 
     }

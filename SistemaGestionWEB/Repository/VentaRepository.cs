@@ -101,14 +101,16 @@ namespace SistemaGestionWEB.Repository
 
         public static void Crear(Dictionary<Producto,int> _ProductoCantidad,string _Comentarios)
         {
-            List<ProductoVendido> lPv = new List<ProductoVendido>();
+            List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
+            Venta _Venta = new Venta();
 
-            foreach (var pro in _ProductoCantidad)
+            foreach (var producto in _ProductoCantidad)
             {
-                lPv.Add(ProductoVendidoRepository.Crear(pro.Key, pro.Value));
+                listaProductosVendidos.Add(ProductoVendidoRepository.Crear(producto.Key, producto.Value));
             }
 
-
+            _Venta.Productos = listaProductosVendidos;
+            _Venta.Comentarios = _Comentarios;
         }
     }
 }
