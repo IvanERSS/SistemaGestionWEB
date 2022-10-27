@@ -156,23 +156,12 @@ namespace SistemaGestionWEB.Repository
 
 
             return null;
-        }//PARA UNO
+        }
 
-        public static bool Crear(Dictionary<Producto,int> _ProductoCantidad)
+        public static void Crear(Dictionary<Producto,int> _ProductoCantidad)
         {
-            /*
-            Dictionary<Producto, int> x;
-            x.Add()
-            foreach (var x in lista)
-            {
-                x.Key.ID = 69;
-               
-            }
 
-            lista.Remove();
-            dynamic[] arreglo = { 1, "Cadena", 1.23 };*/
-            return false;
-        }//PARA VARIOS
+        }
 
 
     }
