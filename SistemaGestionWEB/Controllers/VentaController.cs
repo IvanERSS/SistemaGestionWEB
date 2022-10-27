@@ -16,9 +16,9 @@ namespace SistemaGestionWEB.Controllers
         }
 
         [HttpPost("Create")]
-        public void Crear([FromBody] Dictionary<int,int> productoCantidad, string coments)
+        public void Crear([FromBody] Dictionary<int,int> productoCantidad, string coments, int _IdUser)
         {
-            VentaRepository.Create(productoCantidad, coments);
+            VentaRepository.Create(productoCantidad, coments, _IdUser);
         }
     }
 }

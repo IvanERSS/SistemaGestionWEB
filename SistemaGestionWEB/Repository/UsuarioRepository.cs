@@ -85,7 +85,7 @@ namespace SistemaGestionWEB.Repository
                     _Usuario.Mail = reader.GetValue(5).ToString();
                 }
 
-                Console.WriteLine(_Usuario.ToString() + "\n"); //Para verificar
+                //Console.WriteLine(_Usuario.ToString() + "\n"); //Para verificar
 
 
                 reader.Close();
