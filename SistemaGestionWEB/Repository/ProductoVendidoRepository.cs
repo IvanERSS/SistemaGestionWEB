@@ -153,7 +153,31 @@ namespace SistemaGestionWEB.Repository
 
         public static ProductoVendido Crear(int _IdProducto, int _Cantidad, int _IdVenta)
         {
-
+            using (SqlConnection connection = RepositoryTools.GetConnection())
+            {
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.Parameters.Add(new SqlParameter("stock", System.Data.SqlDbType.Int) { Value = _Cantidad });
+                cmd.Parameters.Add(new SqlParameter("idProducto", System.Data.SqlDbType.Int) { Value = _IdProducto });
+                cmd.Parameters.Add(new SqlParameter("idVenta", System.Data.SqlDbType.Int) { Value = _IdVenta });
+                cmd.CommandText = @"
+									INSERT INTO ProductoVendido(Stock,IdProducto,IdVenta)
+									VALUES (@stock,@idProducto,@idVenta); SELECT @@IDENTITY
+                                ";
+                int id = Convert.ToInt32(cmd.ExecuteScalar());
+                if (id > 0)
+                {
+                    ProductoVendido productoVendido = new ProductoVendido()
+                    {
+                        ID = id,
+                        Cantidad = _Cantidad,
+                        Producto = ProductoRepository.Get(_IdProducto),
+                        IDVenta = _IdVenta
+                    };
+                    return productoVendido;
+                }
+                connection.Close();
+            }
             return null;
         }
 
@@ -161,5 +185,6 @@ namespace SistemaGestionWEB.Repository
         {
 
         }
+
     }
 }

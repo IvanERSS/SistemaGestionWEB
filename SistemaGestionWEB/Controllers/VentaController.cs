@@ -9,16 +9,16 @@ namespace SistemaGestionWEB.Controllers
     [ApiController]
     public class VentaController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("Get")]
         public List<Venta> Get()
         {
             return VentaRepository.Get();
         }
 
         [HttpPost("Create")]
-        public void Crear([FromBody] Dictionary<int,int> productoCantidad, string coments)
+        public void Crear([FromBody] Dictionary<int,int> productoCantidad, string coments, int _IdUser)
         {
-            VentaRepository.Create(productoCantidad, coments);
+            VentaRepository.Create(productoCantidad, coments, _IdUser);
         }
     }
 }

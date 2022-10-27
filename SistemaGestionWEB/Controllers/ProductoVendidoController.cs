@@ -10,10 +10,16 @@ namespace SistemaGestionWEB.Controllers
     [ApiController]
     public class ProductoVendidoController : ControllerBase
     {
-        [HttpGet]
+        [HttpGet("Get")]
         public List<ProductoVendido> Get()
         {
             return ProductoVendidoRepository.Get();
+        }
+
+        [HttpPost("Create")]
+        public void Create([FromBody] int idProducto,int idUsuario,int idVenta)
+        {
+            ProductoVendidoRepository.Crear(idProducto,idUsuario,idVenta);
         }
     }
 }

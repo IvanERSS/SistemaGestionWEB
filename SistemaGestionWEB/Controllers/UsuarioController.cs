@@ -36,11 +36,13 @@ namespace SistemaGestionWEB.Controllers
         }
 
         //METODOS DELETE
+        /*
         [HttpDelete()]
         public void Eliminar()
         {
 
         }
+        */
 
     }
 }
