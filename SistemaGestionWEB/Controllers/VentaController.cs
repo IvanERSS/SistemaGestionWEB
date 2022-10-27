@@ -15,10 +15,10 @@ namespace SistemaGestionWEB.Controllers
             return VentaRepository.Get();
         }
 
-        [HttpPost()]
-        public void Crear([FromBody] Dictionary<Producto,int> productoCantidad, string coments)
+        [HttpPost("Create")]
+        public void Crear([FromBody] Dictionary<int,int> productoCantidad, string coments)
         {
-            VentaRepository.Crear(productoCantidad, coments);
+            VentaRepository.Create(productoCantidad, coments);
         }
     }
 }
