@@ -22,12 +22,22 @@ namespace SistemaGestionWEB.Controllers
             return null;
         }
 
-        [HttpPost("create")]
-        public void Crear([FromBody] Dictionary<int,int> productoCantidad, string coments, int _IdUser)
+        [HttpDelete("Delete")]
+        public void Delete(int _id)
         {
-            VentaRepository.Create(productoCantidad, coments, _IdUser);
+            VentaRepository.Delete(_id);
         }
 
+        [HttpPost("create")]
+        public void Crear([FromBody] Dictionary<int, int> productoCantidad, string coments)
+        {
+            VentaRepository.Create(productoCantidad, coments);
+        }
 
+        [HttpPost("createII")]
+        public void CreateII(List<KeyValuePair<int, int>> _ProductoCantidad, string _Comentarios)
+        {
+            VentaRepository.CreateII(_ProductoCantidad,_Comentarios);
+        }
     }
 }

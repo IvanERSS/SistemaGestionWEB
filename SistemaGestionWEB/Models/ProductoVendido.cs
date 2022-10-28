@@ -1,4 +1,6 @@
-﻿namespace SistemaGestionWEB.Models
+﻿using SistemaGestionWEB.Repository;
+
+namespace SistemaGestionWEB.Models
 {
     public class ProductoVendido
     {
@@ -21,6 +23,11 @@
         public double Total()
         {
             return Producto.PrecioVenta * Cantidad;
+        }
+
+        public Usuario GetOwner()
+        {
+            return UsuarioRepository.Get(Producto.Usuario.ID);
         }
 
         public string ToString()

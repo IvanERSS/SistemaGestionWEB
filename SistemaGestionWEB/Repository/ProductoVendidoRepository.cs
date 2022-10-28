@@ -103,6 +103,12 @@ namespace SistemaGestionWEB.Repository
 
         }
 
+        public static ProductoVendido GetByUserId(int _UserId)
+        {
+
+            return null;
+        }//Terminar
+
         public static List<ProductoVendido> GetByIdVenta(int _VentaID)
         {
 

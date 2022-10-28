@@ -103,7 +103,7 @@ namespace SistemaGestionWEB.Repository
         {
 
             return null;
-        }
+        }//Terminar
 
         public static int Create(int _IdUsuario, string _Comentarios = "")
         {
@@ -124,29 +124,48 @@ namespace SistemaGestionWEB.Repository
             return 0;
         }
 
-        public static void Create(Dictionary<int,int> _ProductoCantidad,string _Comentarios,int _IdUsuario)
+        public static void Create(Dictionary<int,int> _ProductoCantidad,string _Comentarios)
         {
-            //get user y agregarlo como objeto arriba para obtener el di usuario
-            //Cambiar diccionario por lista para poder tomar el primer ID sin iterara
+            List<KeyValuePair<int, int>> myList = new List<KeyValuePair<int, int>>();
+            //Tomar el id usuario del primer producto agregado mediante un list
+            myList = _ProductoCantidad.ToList();
+            int idUsuario = ProductoRepository.Get(myList[0].Key).ID;
+
+            Venta _Venta = new Venta();
+            int idVenta = VentaRepository.Create(idUsuario,_Comentarios);
 
             List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
-            Venta _Venta = new Venta();
-            int idVenta = VentaRepository.Create(_IdUsuario);
-
-
-
-            _Venta.Usuario = UsuarioRepository.Get(_IdUsuario);
-            _Venta.Comentarios = _Comentarios;
-
             foreach (var products in _ProductoCantidad)
             {
                 listaProductosVendidos.Add(ProductoVendidoRepository.Crear(products.Key, products.Value,idVenta));
             }
+
             _Venta.Productos = listaProductosVendidos;
-            _Venta.Productos[0].ID = _IdUsuario;
+            _Venta.Usuario = UsuarioRepository.Get(idUsuario);
+            _Venta.Comentarios = _Comentarios;
 
 
         }//FALTA VALIDAR QUE SEAN PRODUCTOS DEL MISMO USUARIO
+
+        public static void CreateII(List<KeyValuePair<int, int>> _ProductoCantidad, string _Comentarios)
+        {
+            List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
+            Venta _Venta = new Venta();
+
+            //Tomar el id usuario del primer producto agregado
+            int idUsuario = ProductoRepository.Get(_ProductoCantidad[0].Key).ID;
+            int idVenta = VentaRepository.Create(idUsuario, _Comentarios);
+
+            foreach (var products in _ProductoCantidad)
+            {
+                listaProductosVendidos.Add(ProductoVendidoRepository.Crear(products.Key, products.Value, idVenta));
+            }
+
+            _Venta.Productos = listaProductosVendidos;
+            _Venta.Usuario = UsuarioRepository.Get(idUsuario);
+            _Venta.Comentarios = _Comentarios;
+
+        }
 
         public static void Delete(int _idParameter)
         {
@@ -162,6 +181,5 @@ namespace SistemaGestionWEB.Repository
                 connection.Close();
             }
         }
-
     }
 }
