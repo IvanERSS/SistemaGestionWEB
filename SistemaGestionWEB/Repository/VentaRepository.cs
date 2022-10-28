@@ -36,7 +36,7 @@ namespace SistemaGestionWEB.Repository
                     venta.Productos = ProductoVendidoRepository.GetByIdVenta(Convert.ToInt32(reader.GetValue(0)));
                     Ventas.Add(venta);
 
-                    Console.WriteLine(venta.ToString());
+                    //Console.WriteLine(venta.ToString());
                 }
 
 
@@ -101,9 +101,20 @@ namespace SistemaGestionWEB.Repository
 
         public static List<Venta> GetByUserId(int _UserId)
         {
+            List<Venta> ventas = new List<Venta>();
+            Usuario user = UsuarioRepository.Get(_UserId);
+            List<Venta> AllVentas = VentaRepository.Get();
 
-            return null;
-        }//Terminar
+            foreach(var venta in AllVentas)
+            {
+                if (venta.Usuario.ID == user.ID)
+                {
+                    ventas.Add(venta);
+                    //Console.WriteLine(ventas.Last().ToString());
+                }
+            }
+            return ventas;
+        }//Optimizar
 
         public static int Create(int _IdUsuario, string _Comentarios = "")
         {

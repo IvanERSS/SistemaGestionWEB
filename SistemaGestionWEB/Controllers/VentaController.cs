@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SistemaGestionWEB.Models;
 using SistemaGestionWEB.Repository;
 
@@ -18,8 +17,8 @@ namespace SistemaGestionWEB.Controllers
         [HttpGet("GetByUserId")]
         public List<Venta> GetByUserId(int _UserId)
         {
+            return VentaRepository.GetByUserId(_UserId);
 
-            return null;
         }
 
         [HttpDelete("Delete")]
@@ -37,7 +36,7 @@ namespace SistemaGestionWEB.Controllers
         [HttpPost("createII")]
         public void CreateII(List<KeyValuePair<int, int>> _ProductoCantidad, string _Comentarios)
         {
-            VentaRepository.CreateII(_ProductoCantidad,_Comentarios);
+            VentaRepository.CreateII(_ProductoCantidad, _Comentarios);
         }
     }
 }

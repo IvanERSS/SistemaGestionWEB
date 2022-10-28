@@ -5,6 +5,8 @@ using System.Collections.Immutable;
 
 //PRUEBAS
 
+//ProductoVendidoRepository.GetByUserId(4);
+
 //Producto x = ProductoRepository.Get(11);
 //x.Usuario.ID = 4;
 //x.Usuario = UsuarioRepository.Get(1);

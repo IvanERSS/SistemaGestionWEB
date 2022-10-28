@@ -103,11 +103,29 @@ namespace SistemaGestionWEB.Repository
 
         }
 
-        public static ProductoVendido GetByUserId(int _UserId)
+        public static List<ProductoVendido> GetByUserId(int _UserId)
         {
+            List<Venta> ventas = VentaRepository.GetByUserId(_UserId);
+            Usuario user = UsuarioRepository.Get(_UserId);
+            Console.Write(user.ToString());
 
-            return null;
-        }//Terminar
+
+            List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
+
+
+            foreach (var venta in ventas)
+            {
+                if(venta.Usuario.ID == user.ID)
+                {
+                    foreach (var productoVendidoEnVenta in venta.Productos)
+                    {
+                        productosVendidos.Add(productoVendidoEnVenta);
+                        //Console.Write(productosVendidos.Last().ToString());
+                    }
+                }
+            }
+            return productosVendidos;
+        }//Optimizar
 
         public static List<ProductoVendido> GetByIdVenta(int _VentaID)
         {

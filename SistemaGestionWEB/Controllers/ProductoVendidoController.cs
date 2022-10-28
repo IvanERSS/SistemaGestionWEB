@@ -16,6 +16,12 @@ namespace SistemaGestionWEB.Controllers
             return ProductoVendidoRepository.Get();
         }
 
+        [HttpGet("GetByUserId")]
+        public List<ProductoVendido> Get(int _UserId)
+        {
+            return ProductoVendidoRepository.GetByUserId(_UserId);
+        }
+
         [HttpPost("create")]
         public void Create([FromBody] int idProducto,int idUsuario,int idVenta)
         {
