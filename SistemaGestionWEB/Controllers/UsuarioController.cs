@@ -29,7 +29,7 @@ namespace SistemaGestionWEB.Controllers
 
 
         //METODOS PUT
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public void Update([FromBody] Usuario user)
         {
             UsuarioRepository.Update(user);
@@ -42,6 +42,7 @@ namespace SistemaGestionWEB.Controllers
         {
 
         }
+
         */
 
     }

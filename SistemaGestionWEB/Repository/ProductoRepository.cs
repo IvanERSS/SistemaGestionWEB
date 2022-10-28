@@ -208,7 +208,7 @@ namespace SistemaGestionWEB.Repository
             {
                 connection.Open();
                 SqlCommand cmd = connection.CreateCommand();
-                cmd.Parameters.Add(new SqlParameter("descripciones", System.Data.SqlDbType.VarChar) { Value = _ProductParameter.ID });
+                cmd.Parameters.Add(new SqlParameter("descripciones", System.Data.SqlDbType.VarChar) { Value = _ProductParameter.Descripciones });
                 cmd.Parameters.Add(new SqlParameter("costo", System.Data.SqlDbType.Float) { Value = _ProductParameter.Costo });
                 cmd.Parameters.Add(new SqlParameter("precioVenta", System.Data.SqlDbType.Float) { Value = _ProductParameter.PrecioVenta });
                 cmd.Parameters.Add(new SqlParameter("stock", System.Data.SqlDbType.Int) { Value = _ProductParameter.Stock });

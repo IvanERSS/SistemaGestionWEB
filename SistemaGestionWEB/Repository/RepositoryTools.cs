@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using SistemaGestionWEB.Models;
+using System.Data.SqlClient;
 
 namespace SistemaGestionWEB.Repository
 {
@@ -11,7 +12,7 @@ namespace SistemaGestionWEB.Repository
             return conn;
         }
 
-        public static bool Session(string userParameter, string passParameter)
+        public static Usuario Session(string userParameter, string passParameter)
         {
             using (SqlConnection connection = GetConnection())
             {
@@ -22,7 +23,7 @@ namespace SistemaGestionWEB.Repository
 
                 cmd.CommandText = @"
                 SELECT
-	                *
+	                id
                 FROM
 	                Usuario
 				WHERE
@@ -30,16 +31,15 @@ namespace SistemaGestionWEB.Repository
 					Contraseña = @pass
                 ";
 
-                var reader = cmd.ExecuteReader();
+                int UserId = Convert.ToInt32(cmd.ExecuteScalar());
 
-                if (reader.Read()) { return true; }
-                else { return false; }
+                if (UserId > 0) { return UsuarioRepository.Get(UserId); }
+                else { return null; }
 
-                reader.Close();
                 connection.Close();
             }
 
-            return false;
+            return null;
         }
 
     }

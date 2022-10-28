@@ -99,6 +99,12 @@ namespace SistemaGestionWEB.Repository
             return _Venta;
         }
 
+        public static List<Venta> GetByUserId(int _UserId)
+        {
+
+            return null;
+        }
+
         public static int Create(int _IdUsuario, string _Comentarios = "")
         {
             using (SqlConnection connection = RepositoryTools.GetConnection())

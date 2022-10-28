@@ -9,25 +9,31 @@ namespace SistemaGestionWEB.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        [HttpGet ("Get")]
+        [HttpGet ("all")]
         public List<Producto> Get()
         {
             return ProductoRepository.Get();
         }
 
-        [HttpPut("Update")]
+        [HttpGet("getByUserId")]
+        public List<Producto> GetByUserId(int _id)
+        {
+            return ProductoRepository.GetByUserId(_id);
+        }
+
+        [HttpPut("update")]
         public void Update([FromBody]Producto _Producto)
         {
             ProductoRepository.Update(_Producto);
         }
 
-        [HttpPut("Delete")]
+        [HttpDelete("delete")]
         public void Delete([FromBody] int _ProductId)
         {
             ProductoRepository.Delete(_ProductId);
         }
 
-        [HttpPost("Create")]
+        [HttpPost("create")]
         public void Create([FromBody] Producto _Producto)
         {
             ProductoRepository.Create(_Producto);
