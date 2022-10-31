@@ -102,19 +102,41 @@ namespace SistemaGestionWEB.Repository
         public static List<Venta> GetByUserId(int _UserId)
         {
             List<Venta> ventas = new List<Venta>();
-            Usuario user = UsuarioRepository.Get(_UserId);
-            List<Venta> AllVentas = VentaRepository.Get();
+            List<int> idVentas = new List<int>();
 
-            foreach(var venta in AllVentas)
+            using (SqlConnection connection = RepositoryTools.GetConnection())
             {
-                if (venta.Usuario.ID == user.ID)
+                connection.Open();
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.Parameters.Add(new SqlParameter("idUser", System.Data.SqlDbType.Int) { Value = _UserId });
+                cmd.CommandText = @"
+								SELECT
+									pv.IdVenta as idVenta
+					            FROM
+					            Producto AS p
+					            INNER JOIN ProductoVendido pv ON p.Id = pv.IdProducto
+					            INNER JOIN Usuario u ON u.id = p.IdUsuario
+								WHERE
+									@idUser = IdUsuario
+								GROUP BY pv.IdVenta
+                                ";
+
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    ventas.Add(venta);
-                    //Console.WriteLine(ventas.Last().ToString());
+                    idVentas.Add(Convert.ToInt32(reader.GetValue(0)));
                 }
+                connection.Close();
             }
+
+            foreach (var id in idVentas)
+            {
+                ventas.Add(VentaRepository.Get(id));
+            }
+
             return ventas;
-        }//Optimizar
+        }
 
         public static int Create(int _IdUsuario, string _Comentarios = "")
         {
@@ -160,14 +182,13 @@ namespace SistemaGestionWEB.Repository
 
         }//FALTA VALIDAR QUE SEAN PRODUCTOS DEL MISMO USUARIO
 
-        /*
         public static void CreateII(List<KeyValuePair<int, int>> _ProductoCantidad, string _Comentarios)
         {
             List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
             Venta _Venta = new Venta();
 
             //Tomar el id usuario del primer producto agregado
-            int idUsuario = ProductoRepository.Get(_ProductoCantidad[0].Key).ID;
+            int idUsuario = ProductoRepository.Get(_ProductoCantidad[0].Key).Usuario.ID;
             int idVenta = VentaRepository.Create(idUsuario, _Comentarios);
 
             foreach (var products in _ProductoCantidad)
@@ -180,7 +201,6 @@ namespace SistemaGestionWEB.Repository
             _Venta.Comentarios = _Comentarios;
 
         }
-        */
 
         public static void Delete(int _idParameter)
         {
@@ -196,5 +216,28 @@ namespace SistemaGestionWEB.Repository
                 connection.Close();
             }
         }
+
+
+
+        /*
+        public static List<Venta> GetByUserId(int _UserId)
+        {
+            List<Venta> ventas = new List<Venta>();
+            Usuario user = UsuarioRepository.Get(_UserId);
+            List<Venta> AllVentas = VentaRepository.Get();
+
+            foreach(var venta in AllVentas)
+            {
+                if (venta.Usuario.ID == user.ID)
+                {
+                    ventas.Add(venta);
+                    //Console.WriteLine(ventas.Last().ToString());
+                }
+            }
+            return ventas;
+        }//Optimizar
+         
+         */
+
     }
 }
