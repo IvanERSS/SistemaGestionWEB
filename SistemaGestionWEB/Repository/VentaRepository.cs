@@ -138,9 +138,11 @@ namespace SistemaGestionWEB.Repository
         public static void Create(Dictionary<int,int> _ProductoCantidad,string _Comentarios)
         {
             List<KeyValuePair<int, int>> myList = new List<KeyValuePair<int, int>>();
-            //Tomar el id usuario del primer producto agregado mediante un list
             myList = _ProductoCantidad.ToList();
-            int idUsuario = ProductoRepository.Get(myList[0].Key).ID;
+
+            //Tomar el id usuario del primer producto agregado mediante un list
+            //Console.WriteLine(ProductoRepository.Get(myList[0].Key).Usuario.ID);
+            int idUsuario = ProductoRepository.Get(myList[0].Key).Usuario.ID;
 
             Venta _Venta = new Venta();
             int idVenta = VentaRepository.Create(idUsuario,_Comentarios);
@@ -158,6 +160,7 @@ namespace SistemaGestionWEB.Repository
 
         }//FALTA VALIDAR QUE SEAN PRODUCTOS DEL MISMO USUARIO
 
+        /*
         public static void CreateII(List<KeyValuePair<int, int>> _ProductoCantidad, string _Comentarios)
         {
             List<ProductoVendido> listaProductosVendidos = new List<ProductoVendido>();
@@ -177,6 +180,7 @@ namespace SistemaGestionWEB.Repository
             _Venta.Comentarios = _Comentarios;
 
         }
+        */
 
         public static void Delete(int _idParameter)
         {

@@ -1,5 +1,6 @@
 ﻿using SistemaGestionWEB.Models;
 using System.Data.SqlClient;
+using System.Xml;
 
 namespace SistemaGestionWEB.Repository
 {
@@ -105,27 +106,47 @@ namespace SistemaGestionWEB.Repository
 
         public static List<ProductoVendido> GetByUserId(int _UserId)
         {
-            List<Venta> ventas = VentaRepository.GetByUserId(_UserId);
-            Usuario user = UsuarioRepository.Get(_UserId);
-            Console.Write(user.ToString());
-
-
+            /*
+             id,producto,cantidad,idVenta
+             */
             List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
-
-
-            foreach (var venta in ventas)
+            using (SqlConnection conn = RepositoryTools.GetConnection())
             {
-                if(venta.Usuario.ID == user.ID)
+                conn.Open();
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.Parameters.Add(new SqlParameter("idUser", System.Data.SqlDbType.Int) { Value = _UserId });
+
+                cmd.CommandText = @"
+								    SELECT
+									    pv.ID as idProductoVendido,
+									    p.Id as IdProducto,
+									    pv.Stock AS Cantidad,
+									    pv.IdVenta as idVenta,
+									    p.IdUsuario as idUsuario
+					                FROM
+					                Producto AS p
+					                INNER JOIN ProductoVendido pv ON p.Id = pv.IdProducto
+					                INNER JOIN Usuario u ON u.id = p.IdUsuario
+								    WHERE
+									    @idUser = IdUsuario
+                                ";
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    foreach (var productoVendidoEnVenta in venta.Productos)
-                    {
-                        productosVendidos.Add(productoVendidoEnVenta);
-                        //Console.Write(productosVendidos.Last().ToString());
-                    }
+                    ProductoVendido productoVendido = new ProductoVendido();
+                    productoVendido.ID = Convert.ToInt32(reader.GetValue(0));
+                    productoVendido.Producto = ProductoRepository.Get(Convert.ToInt32(reader.GetValue(1)));
+                    productoVendido.Cantidad = Convert.ToInt32(reader.GetValue(2));
+                    productoVendido.IDVenta = Convert.ToInt32(reader.GetValue(3));
+                    productosVendidos.Add(productoVendido);
+                    //Console.Write(productoVendido.ToString()+"\n"); //Para validaciones en consola
                 }
+                conn.Close();
             }
+
             return productosVendidos;
-        }//Optimizar
+        }
 
         public static List<ProductoVendido> GetByIdVenta(int _VentaID)
         {
@@ -205,10 +226,31 @@ namespace SistemaGestionWEB.Repository
             return null;
         }
 
-        public static void Crear(Dictionary<Producto,int> _ProductoCantidad)
+
+        /*
+        public static List<ProductoVendido> GetByUserIdII(int _UserId)
         {
+            List<Venta> ventas = VentaRepository.GetByUserId(_UserId);
+            Usuario user = UsuarioRepository.Get(_UserId);
+            Console.Write(user.ToString());
 
-        }
 
+            List<ProductoVendido> productosVendidos = new List<ProductoVendido>();
+
+
+            foreach (var venta in ventas)
+            {
+                if (venta.Usuario.ID == user.ID)
+                {
+                    foreach (var productoVendidoEnVenta in venta.Productos)
+                    {
+                        productosVendidos.Add(productoVendidoEnVenta);
+                        //Console.Write(productosVendidos.Last().ToString());
+                    }
+                }
+            }
+            return productosVendidos;
+        }//Optimizar
+        */
     }
 }

@@ -14,14 +14,14 @@ namespace SistemaGestionWEB.Controllers
             return VentaRepository.Get();
         }
 
-        [HttpGet("GetByUserId")]
+        [HttpGet("getByUserId")]
         public List<Venta> GetByUserId(int _UserId)
         {
             return VentaRepository.GetByUserId(_UserId);
 
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("delete")]
         public void Delete(int _id)
         {
             VentaRepository.Delete(_id);
@@ -33,10 +33,12 @@ namespace SistemaGestionWEB.Controllers
             VentaRepository.Create(productoCantidad, coments);
         }
 
+        /*
         [HttpPost("createII")]
         public void CreateII(List<KeyValuePair<int, int>> _ProductoCantidad, string _Comentarios)
         {
             VentaRepository.CreateII(_ProductoCantidad, _Comentarios);
         }
+        */
     }
 }

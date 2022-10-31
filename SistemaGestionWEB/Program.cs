@@ -2,10 +2,14 @@ using SistemaGestionWEB.Models;
 using SistemaGestionWEB.Repository;
 using System;
 using System.Collections.Immutable;
+using System.Text.RegularExpressions;
 
 //PRUEBAS
 
-//ProductoVendidoRepository.GetByUserId(4);
+
+
+
+//ProductoVendidoRepository.GetByUserIdOP(4);
 
 //Producto x = ProductoRepository.Get(11);
 //x.Usuario.ID = 4;
